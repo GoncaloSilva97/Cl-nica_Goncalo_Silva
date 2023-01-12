@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ClinicaVeterinaria" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-DVEKTTS;Initial Catalog=ClinicaVeterinaria;Integrated Security=True" SettingsObjectName="Clínica_Goncalo_Silva_CET68.Properties.Settings" SettingsPropertyName="ClinicaVeterinariaConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Animais" Member="Animais">
+    <Type Name="Animais">
+      <Column Name="NomeAnimal" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="EspecieRaça" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="IDChip" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DataNascimento" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="IDdono" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Animais_Consultas" Member="Consultas" ThisKey="IDChip" OtherKey="Chip" Type="Consultas" />
+      <Association Name="Donos_Animais" Member="Donos" ThisKey="IDdono" OtherKey="IDCliente" Type="Donos" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Consultas" Member="Consultas">
+    <Type Name="Consultas">
+      <Column Name="Medico" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Sala" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Chip" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IDConsulta" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DataHora" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Animais_Consultas" Member="Animais" ThisKey="Chip" OtherKey="IDChip" Type="Animais" IsForeignKey="true" />
+      <Association Name="Medicos_Consultas" Member="Medicos" ThisKey="Medico" OtherKey="IDMedico" Type="Medicos" IsForeignKey="true" />
+      <Association Name="Salas_Consultas" Member="Salas" ThisKey="Sala" OtherKey="NumeroSala" Type="Salas" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Donos" Member="Donos">
+    <Type Name="Donos">
+      <Column Name="Nome" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="IDCliente" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Donos_Animais" Member="Animais" ThisKey="IDCliente" OtherKey="IDdono" Type="Animais" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Medicos" Member="Medicos">
+    <Type Name="Medicos">
+      <Column Name="NomeMedico" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="IDMedico" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FuncaoMedico" Type="System.String" DbType="VarChar(300)" CanBeNull="true" />
+      <Association Name="Medicos_Consultas" Member="Consultas" ThisKey="IDMedico" OtherKey="Medico" Type="Consultas" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Salas" Member="Salas">
+    <Type Name="Salas">
+      <Column Name="NumeroSala" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FuncaoSala" Type="System.String" DbType="VarChar(300)" CanBeNull="true" />
+      <Association Name="Salas_Consultas" Member="Consultas" ThisKey="NumeroSala" OtherKey="Sala" Type="Consultas" />
+    </Type>
+  </Table>
+</Database>
